@@ -1,10 +1,15 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
     compileSdk = 36
     namespace = "com.winlator"
+
+    buildFeatures {
+        compose = true
+    }
 
     defaultConfig {
         applicationId = "com.winlator"
@@ -53,4 +58,15 @@ dependencies {
     }
     implementation(libs.xz)
     implementation(libs.commons.compress)
+    val composeBom = platform("androidx.compose:compose-bom:2025.05.00")
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+    implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui.tooling.preview)
+    debugImplementation(libs.androidx.ui.tooling)
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.runtime.livedata)
 }
