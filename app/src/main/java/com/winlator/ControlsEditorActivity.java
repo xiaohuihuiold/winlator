@@ -29,6 +29,7 @@ import com.winlator.core.FileUtils;
 import com.winlator.core.UnitUtils;
 import com.winlator.widget.InputControlsView;
 import com.winlator.widget.NumberPicker;
+import com.xhhold.winlator.R;
 
 import java.io.IOException;
 import java.io.InputStream;

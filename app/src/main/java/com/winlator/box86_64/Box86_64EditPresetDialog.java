@@ -12,7 +12,7 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 
-import com.winlator.R;
+import com.xhhold.winlator.R;
 import com.winlator.contentdialog.ContentDialog;
 import com.winlator.core.AppUtils;
 import com.winlator.core.ArrayUtils;

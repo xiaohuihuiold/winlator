@@ -30,7 +30,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.tabs.TabLayout;
-import com.winlator.R;
+import com.xhhold.winlator.R;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

@@ -6,7 +6,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
-import com.winlator.R;
+import com.xhhold.winlator.R;
 import com.winlator.container.Container;
 import com.winlator.core.Callback;
 import com.winlator.core.FileUtils;

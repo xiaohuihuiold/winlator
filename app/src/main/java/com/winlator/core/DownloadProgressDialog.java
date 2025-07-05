@@ -8,7 +8,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.google.android.material.progressindicator.CircularProgressIndicator;
-import com.winlator.R;
+import com.xhhold.winlator.R;
 import com.winlator.math.Mathf;
 
 public class DownloadProgressDialog {

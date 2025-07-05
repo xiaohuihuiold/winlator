@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 
-import com.winlator.R;
+import com.xhhold.winlator.R;
 import com.winlator.XrActivity;
 import com.winlator.math.Mathf;
 import com.winlator.math.XForm;

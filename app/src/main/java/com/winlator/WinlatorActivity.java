@@ -30,10 +30,11 @@ import com.winlator.contentdialog.ContentDialog;
 import com.winlator.core.Callback;
 import com.winlator.core.PreloaderDialog;
 import com.winlator.xenvironment.ImageFsInstaller;
+import com.xhhold.winlator.R;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class WinlatorActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final @IntRange(from = 1, to = 19) byte CONTAINER_PATTERN_COMPRESSION_LEVEL = 9;
     public static final byte PERMISSION_WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 1;
     public static final byte OPEN_FILE_REQUEST_CODE = 2;
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == MainActivity.OPEN_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == WinlatorActivity.OPEN_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             if (openFileCallback != null) {
                 openFileCallback.call(data.getData());
                 openFileCallback = null;

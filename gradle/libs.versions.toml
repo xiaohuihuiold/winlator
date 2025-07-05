@@ -13,6 +13,7 @@ preference = "1.2.0"
 zstdJni = "1.5.7-4"
 xz = "1.10"
 commonsCompress = "1.27.1"
+coreKtxVersion = "1.10.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -33,6 +34,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 zstd-jni = { group = "com.github.luben", name = "zstd-jni", version.ref = "zstdJni" }
 xz = { group = "org.tukaani", name = "xz", version.ref = "xz" }
 commons-compress = { group = "org.apache.commons", name = "commons-compress", version.ref = "commonsCompress" }
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtxVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -5,36 +5,26 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.net.Uri;
 import android.util.AttributeSet;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import androidx.annotation.Nullable;
 
-import com.winlator.MainActivity;
-import com.winlator.R;
+import com.winlator.WinlatorActivity;
+import com.xhhold.winlator.R;
 import com.winlator.core.AppUtils;
 import com.winlator.core.FileUtils;
 import com.winlator.core.ImageUtils;
 import com.winlator.core.UnitUtils;
 import com.winlator.core.WineThemeManager;
-import com.winlator.xenvironment.ImageFs;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
 
 public class ImagePickerView extends View implements View.OnClickListener {
     private final Bitmap icon;
@@ -92,7 +82,7 @@ public class ImagePickerView extends View implements View.OnClickListener {
         final PopupWindow[] popupWindow = {null};
         View browseButton = view.findViewById(R.id.BTBrowse);
         browseButton.setOnClickListener((v) -> {
-            MainActivity activity = (MainActivity)context;
+            WinlatorActivity activity = (WinlatorActivity)context;
             Intent intent = new Intent(Intent.ACTION_PICK);
             intent.setType("image/*");
             activity.setOpenFileCallback((data) -> {
@@ -102,7 +92,7 @@ public class ImagePickerView extends View implements View.OnClickListener {
                 ImageUtils.save(bitmap, userWallpaperFile, Bitmap.CompressFormat.PNG, 100);
                 popupWindow[0].dismiss();
             });
-            activity.startActivityForResult(intent, MainActivity.OPEN_FILE_REQUEST_CODE);
+            activity.startActivityForResult(intent, WinlatorActivity.OPEN_FILE_REQUEST_CODE);
         });
 
         View removeButton = view.findViewById(R.id.BTRemove);

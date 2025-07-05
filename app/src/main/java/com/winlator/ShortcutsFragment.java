@@ -26,6 +26,7 @@ import com.winlator.container.ContainerManager;
 import com.winlator.container.Shortcut;
 import com.winlator.contentdialog.ContentDialog;
 import com.winlator.contentdialog.ShortcutSettingsDialog;
+import com.xhhold.winlator.R;
 
 import java.util.ArrayList;
 import java.util.List;

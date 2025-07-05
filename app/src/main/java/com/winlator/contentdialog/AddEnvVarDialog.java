@@ -5,7 +5,7 @@ import android.view.Menu;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 
-import com.winlator.R;
+import com.xhhold.winlator.R;
 import com.winlator.widget.EnvVarsView;
 
 public class AddEnvVarDialog extends ContentDialog {

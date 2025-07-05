@@ -31,6 +31,7 @@ import com.winlator.contentdialog.ContentDialog;
 import com.winlator.contentdialog.StorageInfoDialog;
 import com.winlator.core.PreloaderDialog;
 import com.winlator.xenvironment.ImageFs;
+import com.xhhold.winlator.R;
 
 import java.util.ArrayList;
 import java.util.List;

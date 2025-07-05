@@ -3,7 +3,7 @@ package com.winlator.container;
 import android.content.Context;
 import android.os.Handler;
 
-import com.winlator.R;
+import com.xhhold.winlator.R;
 import com.winlator.core.Callback;
 import com.winlator.core.FileUtils;
 import com.winlator.core.OnExtractFileListener;

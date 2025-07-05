@@ -18,7 +18,7 @@ import android.widget.PopupWindow;
 
 import androidx.annotation.Nullable;
 
-import com.winlator.R;
+import com.xhhold.winlator.R;
 import com.winlator.core.AppUtils;
 import com.winlator.core.UnitUtils;
 

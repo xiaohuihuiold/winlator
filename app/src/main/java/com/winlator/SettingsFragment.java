@@ -42,6 +42,7 @@ import com.winlator.core.StringUtils;
 import com.winlator.core.WineInfo;
 import com.winlator.core.WineUtils;
 import com.winlator.xenvironment.ImageFs;
+import com.xhhold.winlator.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,7 +74,7 @@ public class SettingsFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == MainActivity.OPEN_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == WinlatorActivity.OPEN_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             try {
                 if (selectWineFileCallback != null && data != null) selectWineFileCallback.call(data.getData());
             }
@@ -306,7 +307,7 @@ public class SettingsFragment extends Fragment {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
-        getActivity().startActivityFromFragment(this, intent, MainActivity.OPEN_FILE_REQUEST_CODE);
+        getActivity().startActivityFromFragment(this, intent, WinlatorActivity.OPEN_FILE_REQUEST_CODE);
     }
 
     private void installWine(final WineInfo wineInfo) {

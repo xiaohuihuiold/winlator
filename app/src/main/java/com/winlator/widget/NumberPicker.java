@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
-import com.winlator.R;
+import com.xhhold.winlator.R;
 import com.winlator.math.Mathf;
 
 public class NumberPicker extends FrameLayout implements View.OnTouchListener {

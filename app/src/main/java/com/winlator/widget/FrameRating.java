@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.winlator.R;
+import com.xhhold.winlator.R;
 
 import java.util.Locale;
 

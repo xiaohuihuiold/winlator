@@ -46,6 +46,7 @@ import com.winlator.widget.CPUListView;
 import com.winlator.widget.ColorPickerView;
 import com.winlator.widget.EnvVarsView;
 import com.winlator.widget.ImagePickerView;
+import com.xhhold.winlator.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -87,7 +88,7 @@ public class ContainerDetailFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == MainActivity.OPEN_DIRECTORY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == WinlatorActivity.OPEN_DIRECTORY_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             if (data != null) {
                 String path = FileUtils.getFilePathFromUri(data.getData());
                 if (path != null && openDirectoryCallback != null) openDirectoryCallback.call(path);
@@ -544,7 +545,7 @@ public class ContainerDetailFragment extends Fragment {
                 };
                 Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
                 intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, Uri.fromFile(Environment.getExternalStorageDirectory()));
-                getActivity().startActivityFromFragment(this, intent, MainActivity.OPEN_DIRECTORY_REQUEST_CODE);
+                getActivity().startActivityFromFragment(this, intent, WinlatorActivity.OPEN_DIRECTORY_REQUEST_CODE);
             });
 
             itemView.findViewById(R.id.BTRemove).setOnClickListener((v) -> {

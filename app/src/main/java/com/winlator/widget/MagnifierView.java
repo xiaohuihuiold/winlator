@@ -14,7 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;
 
-import com.winlator.R;
+import com.xhhold.winlator.R;
 import com.winlator.core.Callback;
 import com.winlator.core.UnitUtils;
 import com.winlator.math.Mathf;

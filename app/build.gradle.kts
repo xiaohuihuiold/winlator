@@ -1,18 +1,19 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
     compileSdk = 36
-    namespace = "com.winlator"
+    namespace = "com.xhhold.winlator"
 
     buildFeatures {
         compose = true
     }
 
     defaultConfig {
-        applicationId = "com.winlator"
+        applicationId = "com.xhhold.winlator"
         minSdk = 26
         targetSdk = 28
         versionCode = 16
@@ -45,6 +46,9 @@ android {
             path = file("src/main/cpp/CMakeLists.txt")
         }
     }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
@@ -58,6 +62,7 @@ dependencies {
     }
     implementation(libs.xz)
     implementation(libs.commons.compress)
+    implementation(libs.core.ktx)
     val composeBom = platform("androidx.compose:compose-bom:2025.05.00")
     implementation(composeBom)
     androidTestImplementation(composeBom)

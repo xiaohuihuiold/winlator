@@ -10,7 +10,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.DisplayMetrics;
 
-import com.winlator.R;
+import com.xhhold.winlator.R;
 import com.winlator.xenvironment.ImageFs;
 import com.winlator.xserver.ScreenInfo;
 

@@ -10,7 +10,7 @@ import android.widget.PopupMenu;
 import android.widget.Spinner;
 
 import com.winlator.ContainerDetailFragment;
-import com.winlator.R;
+import com.xhhold.winlator.R;
 import com.winlator.ShortcutsFragment;
 import com.winlator.box86_64.Box86_64PresetManager;
 import com.winlator.container.Shortcut;

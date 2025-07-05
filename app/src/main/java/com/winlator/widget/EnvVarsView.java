@@ -18,7 +18,7 @@ import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 
-import com.winlator.R;
+import com.xhhold.winlator.R;
 import com.winlator.core.AppUtils;
 import com.winlator.core.EnvVars;
 import com.winlator.core.UnitUtils;

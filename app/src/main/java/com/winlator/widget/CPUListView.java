@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.winlator.R;
+import com.xhhold.winlator.R;
 
 import java.util.Arrays;
 import java.util.List;

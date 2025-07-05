@@ -20,6 +20,7 @@ import com.winlator.xserver.Pointer;
 import com.winlator.xserver.XKeycode;
 import com.winlator.xserver.XLock;
 import com.winlator.xserver.XServer;
+import com.xhhold.winlator.R;
 
 /*
     WinlatorXR implementation by lvonasek (https://github.com/lvonasek)
