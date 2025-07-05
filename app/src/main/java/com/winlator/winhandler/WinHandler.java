@@ -33,20 +33,34 @@ public class WinHandler {
     private final DatagramPacket sendPacket = new DatagramPacket(sendData.array(), 64);
     private final DatagramPacket receivePacket = new DatagramPacket(receiveData.array(), 64);
     private final ArrayDeque<Runnable> actions = new ArrayDeque<>();
-    private boolean initReceived = false;
+    boolean initReceived = false;
     private boolean running = false;
     private OnGetProcessInfoListener onGetProcessInfoListener;
     private ExternalController currentController;
     private InetAddress localhost;
     private byte dinputMapperType = DINPUT_MAPPER_TYPE_XINPUT;
-    private final XServerDisplayActivity activity;
+    final XServerDisplayActivity activity;
     private final List<Integer> gamepadClients = new CopyOnWriteArrayList<>();
 
     public WinHandler(XServerDisplayActivity activity) {
         this.activity = activity;
     }
 
-    private boolean sendPacket(int port) {
+    boolean sendPacket(int port, byte[] data) {
+        try {
+            int size = sendData.position();
+            if (size == 0) return false;
+            sendPacket.setAddress(localhost);
+            sendPacket.setPort(port);
+            sendPacket.setData(data);
+            socket.send(sendPacket);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    boolean sendPacket(int port) {
         try {
             int size = sendData.position();
             if (size == 0) return false;
@@ -54,8 +68,7 @@ public class WinHandler {
             sendPacket.setPort(port);
             socket.send(sendPacket);
             return true;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             return false;
         }
     }
@@ -113,7 +126,7 @@ public class WinHandler {
             sendData.putInt(9 + bytes.length);
             sendData.putInt(0);
             sendData.putInt(affinityMask);
-            sendData.put((byte)bytes.length);
+            sendData.put((byte) bytes.length);
             sendData.put(bytes);
             sendPacket(CLIENT_PORT);
         });
@@ -126,7 +139,7 @@ public class WinHandler {
             sendData.putInt(9);
             sendData.putInt(pid);
             sendData.putInt(affinityMask);
-            sendData.put((byte)0);
+            sendData.put((byte) 0);
             sendPacket(CLIENT_PORT);
         });
     }
@@ -138,10 +151,10 @@ public class WinHandler {
             sendData.put(RequestCodes.MOUSE_EVENT);
             sendData.putInt(10);
             sendData.putInt(flags);
-            sendData.putShort((short)dx);
-            sendData.putShort((short)dy);
-            sendData.putShort((short)wheelDelta);
-            sendData.put((byte)((flags & MouseEventFlags.MOVE) != 0 ? 1 : 0)); // cursor pos feedback
+            sendData.putShort((short) dx);
+            sendData.putShort((short) dy);
+            sendData.putShort((short) wheelDelta);
+            sendData.put((byte) ((flags & MouseEventFlags.MOVE) != 0 ? 1 : 0)); // cursor pos feedback
             sendPacket(CLIENT_PORT);
         });
     }
@@ -173,7 +186,7 @@ public class WinHandler {
         });
     }
 
-    private void addAction(Runnable action) {
+    void addAction(Runnable action) {
         synchronized (actions) {
             actions.add(action);
             actions.notify();
@@ -197,8 +210,8 @@ public class WinHandler {
                     while (initReceived && !actions.isEmpty()) actions.poll().run();
                     try {
                         actions.wait();
+                    } catch (InterruptedException e) {
                     }
-                    catch (InterruptedException e) {}
                 }
             }
         });
@@ -258,8 +271,7 @@ public class WinHandler {
 
                 if (enabled && notify) {
                     if (!gamepadClients.contains(port)) gamepadClients.add(port);
-                }
-                else gamepadClients.remove(Integer.valueOf(port));
+                } else gamepadClients.remove(Integer.valueOf(port));
 
                 addAction(() -> {
                     sendData.rewind();
@@ -271,8 +283,7 @@ public class WinHandler {
                         byte[] bytes = (useVirtualGamepad ? profile.getName() : currentController.getName()).getBytes();
                         sendData.putInt(bytes.length);
                         sendData.put(bytes);
-                    }
-                    else sendData.putInt(0);
+                    } else sendData.putInt(0);
 
                     sendPacket(port);
                 });
@@ -284,19 +295,19 @@ public class WinHandler {
                 boolean useVirtualGamepad = profile != null && profile.isVirtualGamepad();
                 final boolean enabled = currentController != null || useVirtualGamepad;
 
-                if (currentController != null && currentController.getDeviceId() != gamepadId) currentController = null;
+                if (currentController != null && currentController.getDeviceId() != gamepadId)
+                    currentController = null;
 
                 addAction(() -> {
                     sendData.rewind();
                     sendData.put(RequestCodes.GET_GAMEPAD_STATE);
-                    sendData.put((byte)(enabled ? 1 : 0));
+                    sendData.put((byte) (enabled ? 1 : 0));
 
                     if (enabled) {
                         sendData.putInt(gamepadId);
                         if (useVirtualGamepad) {
                             profile.getGamepadState().writeTo(sendData);
-                        }
-                        else currentController.state.writeTo(sendData);
+                        } else currentController.state.writeTo(sendData);
                     }
 
                     sendPacket(port);
@@ -323,12 +334,11 @@ public class WinHandler {
     public void start() {
         try {
             localhost = InetAddress.getLocalHost();
-        }
-        catch (UnknownHostException e) {
+        } catch (UnknownHostException e) {
             try {
                 localhost = InetAddress.getByName("127.0.0.1");
+            } catch (UnknownHostException ex) {
             }
-            catch (UnknownHostException ex) {}
         }
 
         running = true;
@@ -337,7 +347,7 @@ public class WinHandler {
             try {
                 socket = new DatagramSocket(null);
                 socket.setReuseAddress(true);
-                socket.bind(new InetSocketAddress((InetAddress)null, SERVER_PORT));
+                socket.bind(new InetSocketAddress((InetAddress) null, SERVER_PORT));
 
                 while (running) {
                     socket.receive(receivePacket);
@@ -348,8 +358,8 @@ public class WinHandler {
                         handleRequest(requestCode, receivePacket.getPort());
                     }
                 }
+            } catch (IOException e) {
             }
-            catch (IOException e) {}
         });
     }
 
@@ -363,14 +373,13 @@ public class WinHandler {
             addAction(() -> {
                 sendData.rewind();
                 sendData.put(RequestCodes.GET_GAMEPAD_STATE);
-                sendData.put((byte)(enabled ? 1 : 0));
+                sendData.put((byte) (enabled ? 1 : 0));
 
                 if (enabled) {
                     sendData.putInt(!useVirtualGamepad ? currentController.getDeviceId() : profile.id);
                     if (useVirtualGamepad) {
                         profile.getGamepadState().writeTo(sendData);
-                    }
-                    else currentController.state.writeTo(sendData);
+                    } else currentController.state.writeTo(sendData);
                 }
 
                 sendPacket(port);
@@ -394,8 +403,7 @@ public class WinHandler {
 
             if (action == KeyEvent.ACTION_DOWN) {
                 handled = currentController.updateStateFromKeyEvent(event);
-            }
-            else if (action == KeyEvent.ACTION_UP) {
+            } else if (action == KeyEvent.ACTION_UP) {
                 handled = currentController.updateStateFromKeyEvent(event);
             }
 

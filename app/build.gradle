@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdk 30
+    namespace 'com.winlator'
 
     defaultConfig {
         applicationId 'com.winlator'
@@ -13,7 +14,7 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             ndk {

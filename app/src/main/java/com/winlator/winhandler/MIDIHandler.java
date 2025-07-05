@@ -58,7 +58,7 @@ public class MIDIHandler {
     }
 
     public void outputPortConnect() {
-        String selectedDevice = winHandler.activity.getPreferences().getString("midi_input_device", "auto");
+        String selectedDevice = winHandler.activity.getPreferences(Context.MODE_PRIVATE).getString("midi_input_device", "auto");
         if (selectedDevice.equals("none")) return;
 
         MidiManager mm = (MidiManager)winHandler.activity.getSystemService(Context.MIDI_SERVICE);
@@ -170,25 +170,18 @@ public class MIDIHandler {
         int command = (status & 0xf0);
         int channel = (status & 0x0f);
 
-        switch (command) {
-            case CMD_NOTE_OFF:
-                noteOff(nativePtr, channel, param1);
-                break;
-            case CMD_NOTE_ON:
-                noteOn(nativePtr, channel, param1, param2);
-                break;
-            case CMD_KEY_PRESSURE:
-                keyPressure(nativePtr, channel, param1, param2);
-                break;
-            case CMD_CONTROL_CHANGE:
-                controlChange(nativePtr, channel, param1, param2);
-                break;
-            case CMD_PROGRAM_CHANGE:
-                programChange(nativePtr, channel, param1);
-                break;
-            case CMD_PITCH_BEND:
-                pitchBend(nativePtr, channel, param1 + (param2 << 7));
-                break;
+        if (command == CMD_NOTE_OFF) {
+            noteOff(nativePtr, channel, param1);
+        } else if (command == CMD_NOTE_ON) {
+            noteOn(nativePtr, channel, param1, param2);
+        } else if (command == CMD_KEY_PRESSURE) {
+            keyPressure(nativePtr, channel, param1, param2);
+        } else if (command == CMD_CONTROL_CHANGE) {
+            controlChange(nativePtr, channel, param1, param2);
+        } else if (command == CMD_PROGRAM_CHANGE) {
+            programChange(nativePtr, channel, param1);
+        } else if (command == CMD_PITCH_BEND) {
+            pitchBend(nativePtr, channel, param1 + (param2 << 7));
         }
     }
 
@@ -261,38 +254,32 @@ public class MIDIHandler {
         }
 
         int offset = (octave - 1) * 12;
-        switch (note) {
-            case "C":
-                return 0 + offset;
-            case "C#":
-            case "Db":
-                return 1 + offset;
-            case "D":
-                return 2 + offset;
-            case "D#":
-            case "Eb":
-                return 3 + offset;
-            case "E":
-                return 4 + offset;
-            case "F":
-                return 5 + offset;
-            case "F#":
-            case "Gb":
-                return 6 + offset;
-            case "G":
-                return 7 + offset;
-            case "G#":
-            case "Ab":
-                return 8 + offset;
-            case "A":
-                return 9 + offset;
-            case "A#":
-            case "Bb":
-                return 10 + offset;
-            case "B":
-                return 11 + offset;
-            default:
-                return -1;
+        if (note.equals("C")) {
+            return 0 + offset;
+        } else if (note.equals("C#") || note.equals("Db")) {
+            return 1 + offset;
+        } else if (note.equals("D")) {
+            return 2 + offset;
+        } else if (note.equals("D#") || note.equals("Eb")) {
+            return 3 + offset;
+        } else if (note.equals("E")) {
+            return 4 + offset;
+        } else if (note.equals("F")) {
+            return 5 + offset;
+        } else if (note.equals("F#") || note.equals("Gb")) {
+            return 6 + offset;
+        } else if (note.equals("G")) {
+            return 7 + offset;
+        } else if (note.equals("G#") || note.equals("Ab")) {
+            return 8 + offset;
+        } else if (note.equals("A")) {
+            return 9 + offset;
+        } else if (note.equals("A#") || note.equals("Bb")) {
+            return 10 + offset;
+        } else if (note.equals("B")) {
+            return 11 + offset;
+        } else {
+            return -1;
         }
     }
 }

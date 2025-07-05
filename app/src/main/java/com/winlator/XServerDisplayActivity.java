@@ -292,50 +292,42 @@ public class XServerDisplayActivity extends AppCompatActivity implements Navigat
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         final GLRenderer renderer = xServerView.getRenderer();
-        switch (item.getItemId()) {
-            case R.id.main_menu_keyboard:
-                AppUtils.showKeyboard(this);
-                drawerLayout.closeDrawers();
-                break;
-            case R.id.main_menu_input_controls:
-                showInputControlsDialog();
-                drawerLayout.closeDrawers();
-                break;
-            case R.id.main_menu_toggle_fullscreen:
-                renderer.toggleFullscreen();
-                drawerLayout.closeDrawers();
-                break;
-            case R.id.main_menu_task_manager:
-                (new TaskManagerDialog(this)).show();
-                drawerLayout.closeDrawers();
-                break;
-            case R.id.main_menu_magnifier:
-                if (magnifierView == null) {
-                    final FrameLayout container = findViewById(R.id.FLXServerDisplay);
-                    magnifierView = new MagnifierView(this);
-                    magnifierView.setZoomButtonCallback((value) -> {
-                        renderer.setMagnifierZoom(Mathf.clamp(renderer.getMagnifierZoom() + value, 1.0f, 3.0f));
-                        magnifierView.setZoomValue(renderer.getMagnifierZoom());
-                    });
+        int itemId = item.getItemId();
+        if (itemId == R.id.main_menu_keyboard) {
+            AppUtils.showKeyboard(this);
+            drawerLayout.closeDrawers();
+        } else if (itemId == R.id.main_menu_input_controls) {
+            showInputControlsDialog();
+            drawerLayout.closeDrawers();
+        } else if (itemId == R.id.main_menu_toggle_fullscreen) {
+            renderer.toggleFullscreen();
+            drawerLayout.closeDrawers();
+        } else if (itemId == R.id.main_menu_task_manager) {
+            (new TaskManagerDialog(this)).show();
+            drawerLayout.closeDrawers();
+        } else if (itemId == R.id.main_menu_magnifier) {
+            if (magnifierView == null) {
+                final FrameLayout container = findViewById(R.id.FLXServerDisplay);
+                magnifierView = new MagnifierView(this);
+                magnifierView.setZoomButtonCallback((value) -> {
+                    renderer.setMagnifierZoom(Mathf.clamp(renderer.getMagnifierZoom() + value, 1.0f, 3.0f));
                     magnifierView.setZoomValue(renderer.getMagnifierZoom());
-                    magnifierView.setHideButtonCallback(() -> {
-                        container.removeView(magnifierView);
-                        magnifierView = null;
-                    });
-                    container.addView(magnifierView);
-                }
-                drawerLayout.closeDrawers();
-                break;
-            case R.id.main_menu_logs:
-                debugDialog.show();
-                drawerLayout.closeDrawers();
-                break;
-            case R.id.main_menu_touchpad_help:
-                showTouchpadHelpDialog();
-                break;
-            case R.id.main_menu_exit:
-                exit();
-                break;
+                });
+                magnifierView.setZoomValue(renderer.getMagnifierZoom());
+                magnifierView.setHideButtonCallback(() -> {
+                    container.removeView(magnifierView);
+                    magnifierView = null;
+                });
+                container.addView(magnifierView);
+            }
+            drawerLayout.closeDrawers();
+        } else if (itemId == R.id.main_menu_logs) {
+            debugDialog.show();
+            drawerLayout.closeDrawers();
+        } else if (itemId == R.id.main_menu_touchpad_help) {
+            showTouchpadHelpDialog();
+        } else if (itemId == R.id.main_menu_exit) {
+            exit();
         }
         return true;
     }
@@ -733,30 +725,25 @@ public class XServerDisplayActivity extends AppCompatActivity implements Navigat
         File rootDir = imageFs.getRootDir();
         File windowsDir = new File(rootDir, ImageFs.WINEPREFIX+"/drive_c/windows");
 
-        switch (dxwrapper) {
-            case "wined3d":
-                restoreOriginalDllFiles(dlls);
-                break;
-            case "cnc-ddraw":
-                restoreOriginalDllFiles(dlls);
-                final String assetDir = "dxwrapper/cnc-ddraw-"+DefaultVersion.CNC_DDRAW;
-                File configFile = new File(rootDir, ImageFs.WINEPREFIX+"/drive_c/ProgramData/cnc-ddraw/ddraw.ini");
-                if (!configFile.isFile()) FileUtils.copy(this, assetDir+"/ddraw.ini", configFile);
-                File shadersDir = new File(rootDir, ImageFs.WINEPREFIX+"/drive_c/ProgramData/cnc-ddraw/Shaders");
-                FileUtils.delete(shadersDir);
-                FileUtils.copy(this, assetDir+"/Shaders", shadersDir);
-                TarCompressorUtils.extract(TarCompressorUtils.Type.ZSTD, this, assetDir+"/ddraw.tzst", windowsDir, onExtractFileListener);
-                break;
-            case "vkd3d":
-                String[] dxvkVersions = getResources().getStringArray(R.array.dxvk_version_entries);
-                TarCompressorUtils.extract(TarCompressorUtils.Type.ZSTD, this, "dxwrapper/dxvk-"+(dxvkVersions[dxvkVersions.length-1])+".tzst", windowsDir, onExtractFileListener);
-                TarCompressorUtils.extract(TarCompressorUtils.Type.ZSTD, this, "dxwrapper/vkd3d-"+DefaultVersion.VKD3D+".tzst", windowsDir, onExtractFileListener);
-                break;
-            default:
-                restoreOriginalDllFiles("d3d12.dll", "d3d12core.dll", "ddraw.dll");
-                TarCompressorUtils.extract(TarCompressorUtils.Type.ZSTD, this, "dxwrapper/"+dxwrapper+".tzst", windowsDir, onExtractFileListener);
-                TarCompressorUtils.extract(TarCompressorUtils.Type.ZSTD, this, "dxwrapper/d8vk-"+DefaultVersion.D8VK+".tzst", windowsDir, onExtractFileListener);
-                break;
+        if (dxwrapper.equals("wined3d")) {
+            restoreOriginalDllFiles(dlls);
+        } else if (dxwrapper.equals("cnc-ddraw")) {
+            restoreOriginalDllFiles(dlls);
+            final String assetDir = "dxwrapper/cnc-ddraw-"+DefaultVersion.CNC_DDRAW;
+            File configFile = new File(rootDir, ImageFs.WINEPREFIX+"/drive_c/ProgramData/cnc-ddraw/ddraw.ini");
+            if (!configFile.isFile()) FileUtils.copy(this, assetDir+"/ddraw.ini", configFile);
+            File shadersDir = new File(rootDir, ImageFs.WINEPREFIX+"/drive_c/ProgramData/cnc-ddraw/Shaders");
+            FileUtils.delete(shadersDir);
+            FileUtils.copy(this, assetDir+"/Shaders", shadersDir);
+            TarCompressorUtils.extract(TarCompressorUtils.Type.ZSTD, this, assetDir+"/ddraw.tzst", windowsDir, onExtractFileListener);
+        } else if (dxwrapper.equals("vkd3d")) {
+            String[] dxvkVersions = getResources().getStringArray(R.array.dxvk_version_entries);
+            TarCompressorUtils.extract(TarCompressorUtils.Type.ZSTD, this, "dxwrapper/dxvk-"+(dxvkVersions[dxvkVersions.length-1])+".tzst", windowsDir, onExtractFileListener);
+            TarCompressorUtils.extract(TarCompressorUtils.Type.ZSTD, this, "dxwrapper/vkd3d-"+DefaultVersion.VKD3D+".tzst", windowsDir, onExtractFileListener);
+        } else {
+            restoreOriginalDllFiles("d3d12.dll", "d3d12core.dll", "ddraw.dll");
+            TarCompressorUtils.extract(TarCompressorUtils.Type.ZSTD, this, "dxwrapper/"+dxwrapper+".tzst", windowsDir, onExtractFileListener);
+            TarCompressorUtils.extract(TarCompressorUtils.Type.ZSTD, this, "dxwrapper/d8vk-"+DefaultVersion.D8VK+".tzst", windowsDir, onExtractFileListener);
         }
     }
 
@@ -962,3 +949,4 @@ public class XServerDisplayActivity extends AppCompatActivity implements Navigat
         }
     }
 }
+

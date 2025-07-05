@@ -14,7 +14,14 @@
 #include <stdbool.h>
 #include <sys/mman.h>
 
-#include "native_handle.h"
+#ifndef native_handle_t
+typedef struct native_handle {
+    int version;        /* sizeof(native_handle_t) */
+    int numFds;         /* number of file-descriptors at &data[0] */
+    int numInts;        /* number of ints at &data[numFds] */
+    int data[0];        /* numFds + numInts ints */
+} native_handle_t;
+#endif
 
 #define HAL_PIXEL_FORMAT_BGRA_8888 5
 #define println(...) __android_log_print(ANDROID_LOG_DEBUG, "System.out", __VA_ARGS__);
