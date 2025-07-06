@@ -225,4 +225,6 @@
     <string name="msg_warning_install_wine">警告：安装新版本Wine仅建议用于测试目的。</string>
     <string name="startup_selection">启动选择</string>
     <string name="wine_debug_channel">Wine Debug Channel</string>
+    <string name="more">更多</string>
+    <string name="menu">菜单</string>
 </resources>
